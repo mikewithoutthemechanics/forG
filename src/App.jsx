@@ -3,77 +3,83 @@ import { motion, AnimatePresence } from 'framer-motion'
 import reasons from './reasons'
 import './App.css'
 
-const AnimatedHeart = () => (
-  <motion.div
-    className="floating-heart"
-    animate={{
-      y: [0, -20, 0],
-      scale: [1, 1.1, 1],
-      opacity: [0.3, 0.6, 0.3]
+const GiantSunflower = () => (
+  <motion.div 
+    className="giant-sunflower"
+    animate={{ 
+      rotate: [0, 5, -5, 0],
+      scale: [1, 1.02, 1]
     }}
-    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    transition={{ 
+      duration: 4, 
+      repeat: Infinity, 
+      ease: "easeInOut" 
+    }}
   >
-    💛
+    <div className="sunflower-center" />
+    {[...Array(24)].map((_, i) => {
+      const angle = i * 15;
+      return (
+        <div 
+          key={i} 
+          className="petal"
+          style={{ 
+            transform: `rotate(${angle}deg) translateY(-60px)`,
+            animationDelay: `${i * 0.1}s`
+          }} 
+        />
+      );
+    })}
   </motion.div>
 )
 
-const Sparkle = ({ delay }) => (
+const FloatingPetal = ({ delay, size, left }) => (
   <motion.div
-    className="sparkle"
-    initial={{ scale: 0, rotate: 0 }}
-    animate={{ scale: [0, 1, 0], rotate: [0, 180, 360] }}
-    transition={{ duration: 1.5, repeat: Infinity, delay, ease: "easeInOut" }}
-  />
-)
-
-const FloatingHeart = ({ delay }) => (
-  <motion.div
-    className="heart-particle"
+    className="floating-petal"
     initial={{ 
-      x: Math.random() * 100 - 50,
-      y: -20,
-      scale: 0,
+      x: 0,
+      y: -50,
+      rotate: 0,
       opacity: 0 
     }}
     animate={{ 
-      y: [null, 500],
-      scale: [0, 1, 0.5],
-      opacity: [0, 1, 0],
-      x: [null, Math.random() * 100 - 50]
+      y: [null, 600],
+      rotate: [0, 360],
+      opacity: [0, 0.8, 0]
     }}
     transition={{ 
-      duration: 6 + Math.random() * 3,
+      duration: 8 + Math.random() * 4,
       repeat: Infinity,
       delay,
       ease: "linear"
     }}
-  >
-    💕
-  </motion.div>
+    style={{
+      left: `${left}%`,
+      width: size,
+      height: size,
+    }}
+  />
 )
 
 function App() {
   const [showMessage, setShowMessage] = useState(false)
   const [showReasons, setShowReasons] = useState(false)
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    setLoaded(true)
-  }, [])
 
   return (
     <div className="container">
-      {/* Floating elements */}
-      <AnimatedHeart />
-      <AnimatedHeart style={{ top: '20%', right: '10%', animationDelay: '-0.5s' }} />
-      <AnimatedHeart style={{ bottom: '30%', left: '5%', animationDelay: '-1s' }} />
+      {/* Giant sunflower in center */}
+      {!showMessage && !showReasons && (
+        <GiantSunflower />
+      )}
       
-      {[...Array(15)].map((_, i) => (
-        <FloatingHeart key={i} delay={i * 0.8} />
-      ))}
-      
-      {[...Array(20)].map((_, i) => (
-        <Sparkle key={i} delay={i * 0.3} />
+      {/* Floating petals */}
+      {[...Array(12)].map((_, i) => (
+        <FloatingPetal 
+          key={i} 
+          delay={i * 1.5} 
+          size={20 + Math.random() * 30}
+          left={10 + Math.random() * 80}
+        />
       ))}
 
       <AnimatePresence>
@@ -85,48 +91,39 @@ function App() {
             exit={{ opacity: 0, scale: 0.95 }}
           >
             <motion.div 
-              className="hero"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="hero-content"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
             >
-              <motion.div
-                className="heart-ring"
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.3, duration: 1, type: "spring" }}
-              >
-                <span className="big-heart">💕</span>
-              </motion.div>
-              
               <motion.h1 
                 className="title"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.8 }}
               >
-                For My Gezelle 💕
+                For My Gezelle
               </motion.h1>
               
               <motion.p 
-                className="tagline"
+                className="subtitle"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
+                transition={{ delay: 1.1 }}
               >
-                A declaration of love
+                100 reasons why I love you
               </motion.p>
               
               <motion.button 
                 className="enter-btn"
                 onClick={() => setShowMessage(true)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.4 }}
+                whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Tap to enter 💗
+                Tap to enter
               </motion.button>
             </motion.div>
           </motion.div>
@@ -142,55 +139,47 @@ function App() {
             exit={{ opacity: 0, y: -50 }}
           >
             <motion.div 
-              className="love-letter"
+              className="letter-container"
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
             >
-              <motion.div 
-                className="letter-header"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <span className="heart-icon">💕</span>
-                <span className="heart-icon">💗</span>
-                <span className="heart-icon">💖</span>
-              </motion.div>
+              <div className="sunflower-corner top-right" />
+              <div className="sunflower-corner bottom-left" />
               
-              <motion.p 
-                className="salutation"
+              <motion.h2 
+                className="letter-title"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
               >
-                My Gezelle,
+                💛 My Dearest Gezelle 💛
+              </motion.h2>
+              
+              <motion.p 
+                className="letter-text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                I know I've been so preoccupied lately, but I want you to know something...
               </motion.p>
               
               <motion.p 
-                className="love-message"
+                className="letter-highlight"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.7 }}
               >
-                I know I've been caught up in work lately, but I need you to know something...
+                Having you by my side gives me more motivation than ever to keep building this life for us!
               </motion.p>
               
               <motion.p 
-                className="love-message highlight"
+                className="letter-text"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 0.9 }}
               >
-                Having you by my side gives me more motivation than ever to build this life for us.
-              </motion.p>
-              
-              <motion.p 
-                className="love-message"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-              >
-                You are my everything. Here's 100 reasons why I love you...
+                Here are 100 reasons why I love you 💕
               </motion.p>
               
               <motion.button 
@@ -198,11 +187,11 @@ function App() {
                 onClick={() => setShowReasons(true)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.3 }}
+                transition={{ delay: 1.2 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Read them 💕
+                Read them 💛
               </motion.button>
             </motion.div>
           </motion.div>
@@ -216,28 +205,27 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <motion.div
-              className="reasons-header"
-              initial={{ y: -30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+            <motion.h1 
+              className="page-title"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
-              <span className="header-hearts">💕 💗 💖</span>
-              <h1>100 Reasons Why I Love You</h1>
-            </motion.div>
+              💛 100 Reasons Why I Love You 💛
+            </motion.h1>
             
             <div className="reasons-container">
               {reasons.map((reason, index) => (
                 <motion.div 
                   key={index}
                   className="reason-card"
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, margin: "-20px" }}
-                  transition={{ delay: index * 0.015, duration: 0.4 }}
-                  whileHover={{ scale: 1.02 }}
+                  transition={{ delay: index * 0.012, duration: 0.3 }}
+                  whileHover={{ scale: 1.02, x: 8 }}
                 >
-                  <span className="reason-number">{index + 1}</span>
-                  <span className="reason-text">{reason}</span>
+                  <span className="reason-num">{index + 1}</span>
+                  <span className="reason-msg">{reason}</span>
                 </motion.div>
               ))}
             </div>
@@ -249,7 +237,7 @@ function App() {
               whileInView={{ opacity: 1 }}
               whileHover={{ scale: 1.05 }}
             >
-              ← Back to start
+              ← Back
             </motion.button>
           </motion.div>
         )}
