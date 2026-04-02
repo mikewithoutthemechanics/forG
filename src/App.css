@@ -8,29 +8,26 @@
 
 :root {
   --gold: #F4B942;
-  --gold-dark: #D49B2A;
   --gold-light: #FFD166;
+  --gold-dark: #D49B2A;
   --cream: #FFF9ED;
   --brown: #5C4033;
-  --brown-light: #8B7355;
 }
 
 body {
   font-family: 'Cormorant Garamond', serif;
-  background: linear-gradient(180deg, #1a1208 0%, #2d1f10 50%, #1a1208 100%);
+  background: #0a0612;
   min-height: 100vh;
-  color: var(--gold-light);
   overflow-x: hidden;
 }
 
-.container {
+.app {
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
 }
 
-/* Particle Canvas Background */
-.particle-canvas {
+/* Aurora Canvas */
+.aurora-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -40,23 +37,34 @@ body {
   pointer-events: none;
 }
 
-/* Floating Elements */
-.floating-element {
-  position: absolute;
-  z-index: 1;
+/* Floating Petals */
+.petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
 }
 
-/* GIANT SUNFLOWER */
-.giant-sunflower-container {
+.petal {
+  position: absolute;
+  top: 0;
+}
+
+/* GIANT SUNFLOWER HERO */
+.sunflower-hero {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   z-index: 1;
   pointer-events: none;
+  margin-top: -50px;
 }
 
 .sunflower-glow {
@@ -64,59 +72,58 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(244, 185, 66, 0.3) 0%, transparent 70%);
-  filter: blur(20px);
-  animation: glowPulse 3s ease-in-out infinite;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(244,185,66,0.25) 0%, transparent 70%);
+  filter: blur(25px);
+  animation: glowPulse 4s ease-in-out infinite;
 }
 
 @keyframes glowPulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
 }
 
-.sunflower-center {
+.sunflower-center-large {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, #5C4033 0%, #3D2817 100%);
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, #5C4033 0%, #2d1f10 100%);
   border-radius: 50%;
   box-shadow: 
-    0 0 30px rgba(0,0,0,0.5),
-    inset 0 0 20px rgba(0,0,0,0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    0 0 40px rgba(0,0,0,0.6),
+    inset 0 0 25px rgba(0,0,0,0.4);
 }
 
-.center-dot {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #2d1f10;
-  border-radius: 50%;
-}
-
-.sunflower-petal {
+.center-detail {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 30px;
-  height: 90px;
+  width: 6px;
+  height: 6px;
+  background: #1a1208;
+  border-radius: 50%;
+}
+
+.petal-large {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 35px;
+  height: 100px;
   background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
   border-radius: 50% 50% 50% 50%;
   transform-origin: center bottom;
-  margin-left: -15px;
-  margin-top: -40px;
-  box-shadow: 0 5px 20px rgba(212, 155, 42, 0.5);
+  margin-left: -17.5px;
+  margin-top: -45px;
+  box-shadow: 0 8px 25px rgba(212,155,42,0.5);
 }
 
-/* INTRO SCREEN */
-.intro-screen {
+/* INTRO */
+.intro {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -126,72 +133,58 @@ body {
   z-index: 2;
 }
 
-.hero-content {
+.hero-box {
   text-align: center;
-  max-width: 600px;
-  margin-top: 250px;
+  margin-top: 200px;
+  perspective: 1000px;
 }
 
-.title {
+.main-title {
   font-family: 'Playfair Display', serif;
-  font-size: 4.5rem;
+  font-size: 5rem;
   font-weight: 500;
   font-style: italic;
   color: var(--gold-light);
   margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
+  text-shadow: 
+    0 0 40px rgba(244,185,66,0.5),
+    0 4px 20px rgba(0,0,0,0.5);
 }
 
 .subtitle {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--gold);
   margin-bottom: 2.5rem;
   font-style: italic;
   letter-spacing: 0.15em;
 }
 
-.enter-btn {
-  position: relative;
+.enter-button {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
   border: none;
   padding: 1.5rem 5rem;
   font-size: 1.4rem;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
-  color: #1a1208;
+  color: #0a0612;
   border-radius: 60px;
   cursor: pointer;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  overflow: hidden;
   box-shadow: 
-    0 15px 50px rgba(244, 185, 66, 0.5),
-    0 0 0 2px rgba(244, 185, 66, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    0 15px 50px rgba(244,185,66,0.5),
+    0 0 0 3px rgba(244,185,66,0.2),
+    inset 0 2px 0 rgba(255,255,255,0.3);
   transition: all 0.4s ease;
 }
 
-.enter-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.5s;
+.enter-button:hover {
+  transform: translateY(-3px);
 }
 
-.enter-btn:hover::before {
-  left: 100%;
-}
-
-.enter-btn:hover {
-  transform: scale(1.05);
-}
-
-/* MESSAGE SCREEN */
-.message-screen {
+/* LETTER SECTION */
+.letter-section {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -201,39 +194,39 @@ body {
   z-index: 2;
 }
 
-.immersive-letter {
-  background: linear-gradient(135deg, rgba(30, 20, 10, 0.95) 0%, rgba(45, 31, 16, 0.95) 100%);
+.love-letter {
+  background: linear-gradient(145deg, rgba(20,12,30,0.95) 0%, rgba(35,20,50,0.95) 100%);
   padding: 4rem 3.5rem;
-  border-radius: 20px;
+  border-radius: 25px;
   max-width: 600px;
   width: 100%;
-  border: 1px solid rgba(244, 185, 66, 0.3);
+  border: 1px solid rgba(244,185,66,0.25);
   box-shadow: 
-    0 40px 100px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(244, 185, 66, 0.1),
-    inset 0 0 80px rgba(244, 185, 66, 0.03);
+    0 40px 100px rgba(0,0,0,0.6),
+    0 0 60px rgba(244,185,66,0.1),
+    inset 0 0 100px rgba(244,185,66,0.02);
   position: relative;
   overflow: hidden;
 }
 
-.letter-shine {
+.letter-glow {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(244, 185, 66, 0.1) 0%, transparent 50%);
-  animation: shineRotate 10s linear infinite;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(244,185,66,0.08) 0%, transparent 50%);
+  animation: rotateGlow 15s linear infinite;
 }
 
-@keyframes shineRotate {
+@keyframes rotateGlow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.letter-title {
+.letter-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   font-style: italic;
   color: var(--gold-light);
   text-align: center;
@@ -242,17 +235,17 @@ body {
   z-index: 1;
 }
 
-.letter-divider {
-  width: 60%;
+.divider-gold {
+  width: 50%;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 1.5rem auto;
 }
 
-.letter-text {
-  font-size: 1.35rem;
+.letter-para {
+  font-size: 1.4rem;
   line-height: 2;
-  color: rgba(255, 209, 102, 0.8);
+  color: rgba(255,209,102,0.75);
   margin-bottom: 1.2rem;
   text-align: left;
   position: relative;
@@ -260,19 +253,20 @@ body {
 }
 
 .letter-highlight {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-style: italic;
   color: var(--gold-light);
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(244, 185, 66, 0.15) 0%, rgba(255, 209, 102, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(244,185,66,0.12) 0%, rgba(255,209,102,0.08) 100%);
   border-radius: 15px;
   text-align: center;
   margin: 1.5rem 0;
+  border: 1px solid rgba(244,185,66,0.3);
   position: relative;
   z-index: 1;
 }
 
-.continue-btn {
+.continue-button {
   margin-top: 2rem;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
   border: none;
@@ -280,7 +274,7 @@ body {
   font-size: 1.3rem;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
-  color: #1a1208;
+  color: #0a0612;
   border-radius: 40px;
   cursor: pointer;
   letter-spacing: 0.15em;
@@ -288,24 +282,24 @@ body {
   margin-left: auto;
   margin-right: auto;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(244, 185, 66, 0.4);
+  box-shadow: 0 10px 35px rgba(244,185,66,0.45);
   position: relative;
   z-index: 1;
 }
 
-.continue-btn:hover {
-  transform: scale(1.08);
+.continue-button:hover {
+  transform: scale(1.05);
 }
 
-/* REASONS SCREEN */
-.reasons-screen {
+/* REASONS SECTION */
+.reasons-section {
   min-height: 100vh;
   padding: 3rem 2rem;
   position: relative;
   z-index: 2;
 }
 
-.page-title {
+.reasons-title {
   font-family: 'Playfair Display', serif;
   font-size: 3rem;
   font-weight: 400;
@@ -313,10 +307,11 @@ body {
   text-align: center;
   margin-bottom: 3rem;
   color: var(--gold-light);
+  text-shadow: 0 0 30px rgba(244,185,66,0.4);
 }
 
-.reasons-container {
-  max-width: 700px;
+.reasons-grid {
+  max-width: 750px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -324,67 +319,67 @@ body {
   padding-bottom: 4rem;
 }
 
-/* GLOW CARD EFFECT */
-.glow-card {
+/* 3D GLOW CARD */
+.card-3d {
   position: relative;
-  padding: 1.2rem 1.8rem;
-  background: linear-gradient(135deg, rgba(30, 20, 10, 0.8) 0%, rgba(45, 31, 16, 0.8) 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(244, 185, 66, 0.2);
+  padding: 1.3rem 1.8rem;
+  background: linear-gradient(135deg, rgba(25,15,40,0.9) 0%, rgba(40,25,60,0.9) 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(244,185,66,0.15);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
   transform-style: preserve-3d;
   transition: all 0.3s ease;
   cursor: pointer;
+  box-shadow: 
+    0 10px 40px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
-.glow-card::before {
+.card-3d::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  background: linear-gradient(45deg, var(--gold), transparent, var(--gold));
-  border-radius: 18px;
+  inset: -1px;
+  background: linear-gradient(45deg, transparent 40%, var(--gold) 50%, transparent 60%);
+  border-radius: 19px;
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-.glow-card:hover::before {
+.card-3d:hover::before {
   opacity: 1;
 }
 
-.glow-effect {
+.card-shine {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(244, 185, 66, 0.2) 0%, transparent 50%);
-  border-radius: 16px;
-  opacity: 0;
-  transition: opacity 0.3s;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+  border-radius: 18px 18px 0 0;
   pointer-events: none;
 }
 
-.glow-card:hover .glow-effect {
-  opacity: 1;
-}
-
-.reason-number {
+.reason-num {
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   color: var(--gold);
   font-style: italic;
   min-width: 45px;
-  text-shadow: 0 0 10px rgba(244, 185, 66, 0.5);
+  text-shadow: 0 0 15px rgba(244,185,66,0.5);
 }
 
-.reason-message {
+.reason-msg {
   font-size: 1.2rem;
   line-height: 1.5;
   color: var(--gold-light);
   flex: 1;
 }
 
-.back-button {
+.back-home {
   position: fixed;
   bottom: 2rem;
   left: 50%;
@@ -394,62 +389,68 @@ body {
   padding: 1rem 2.5rem;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.1rem;
-  color: #1a1208;
+  color: #0a0612;
   border-radius: 40px;
   cursor: pointer;
   letter-spacing: 0.1em;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 30px rgba(244, 185, 66, 0.4);
+  box-shadow: 0 8px 30px rgba(244,185,66,0.45);
 }
 
-.back-button:hover {
+.back-home:hover {
   transform: translateX(-50%) scale(1.05);
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .giant-sunflower-container {
-    width: 250px;
-    height: 250px;
+  .sunflower-hero {
+    width: 280px;
+    height: 280px;
   }
   
-  .sunflower-center {
-    width: 60px;
-    height: 60px;
+  .sunflower-center-large {
+    width: 70px;
+    height: 70px;
   }
   
-  .sunflower-petal {
-    width: 20px;
-    height: 60px;
-    margin-left: -10px;
-    margin-top: -25px;
+  .petal-large {
+    width: 22px;
+    height: 65px;
+    margin-left: -11px;
+    margin-top: -30px;
   }
   
-  .title {
-    font-size: 2.5rem;
+  .main-title {
+    font-size: 2.8rem;
   }
   
   .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   
-  .hero-content {
-    margin-top: 180px;
+  .hero-box {
+    margin-top: 150px;
   }
   
-  .immersive-letter {
+  .love-letter {
     padding: 2.5rem 1.5rem;
   }
   
-  .letter-title {
-    font-size: 1.6rem;
+  .letter-heading {
+    font-size: 1.7rem;
   }
   
-  .letter-text {
+  .letter-para {
     font-size: 1.1rem;
   }
   
   .letter-highlight {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+  }
+  
+  .card-3d {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem 1.2rem;
   }
 }
